@@ -1,4 +1,4 @@
-# DailyNews - news from around the world
+# DailyNews
 Android application that shows news from around the world.
 
 ## Architecture
