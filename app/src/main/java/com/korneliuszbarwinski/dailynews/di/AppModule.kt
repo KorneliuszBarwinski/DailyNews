@@ -1,6 +1,7 @@
 package com.korneliuszbarwinski.dailynews.di
 
 import com.korneliuszbarwinski.dailynews.common.Constants
+import com.korneliuszbarwinski.dailynews.common.interceptors.ApiKeyInterceptor
 import com.korneliuszbarwinski.dailynews.data.remote.NewsApi
 import com.korneliuszbarwinski.dailynews.data.repository.NewsRepositoryImpl
 import com.korneliuszbarwinski.dailynews.domain.repository.NewsRepository
@@ -32,10 +33,9 @@ object AppModule {
     @Provides
     @Singleton
     internal fun client(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(ApiKeyInterceptor())
             .build()
     }
 
