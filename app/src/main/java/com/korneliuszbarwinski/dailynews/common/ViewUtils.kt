@@ -2,10 +2,10 @@ package com.korneliuszbarwinski.dailynews.common
 
 import android.view.View
 
-fun View.show() {
+fun View.visible() {
     visibility = View.VISIBLE
 }
 
-fun View.hide() {
+fun View.gone() {
     visibility = View.GONE
 }
