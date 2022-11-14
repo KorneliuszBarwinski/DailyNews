@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.korneliuszbarwinski.dailynews.R
 import com.korneliuszbarwinski.dailynews.common.Resource
-import com.korneliuszbarwinski.dailynews.common.hide
-import com.korneliuszbarwinski.dailynews.common.show
+import com.korneliuszbarwinski.dailynews.common.gone
+import com.korneliuszbarwinski.dailynews.common.visible
 import com.korneliuszbarwinski.dailynews.databinding.FragmentNewsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,25 +25,32 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         _binding = FragmentNewsBinding.bind(view)
         binding.newsRV.adapter = newsAdapter
 
+        binding.newsSRL.apply {
+            setOnRefreshListener {
+                isRefreshing = false
+                viewModel.refreshNews()
+            }
+        }
+
         handleApiData()
     }
 
 
     private fun handleApiData() {
         viewModel.latestNews.observe(viewLifecycleOwner) {
-            when (it) {
+            when (it){
                 is Resource.Success -> {
                     newsAdapter.dataSet = it.data!!
-                    binding.newsRV.show()
-                    binding.newsPB.hide()
+                    binding.newsRV.visible()
+                    binding.newsPB.gone()
                 }
                 is Resource.Loading -> {
-                    binding.newsPB.show()
-                    binding.newsRV.hide()
+                    binding.newsPB.visible()
+                    binding.newsRV.gone()
                 }
                 is Resource.Error -> {
-                    binding.newsRV.show()
-                    binding.newsPB.hide()
+                    binding.newsRV.visible()
+                    binding.newsPB.gone()
                 }
             }
         }
