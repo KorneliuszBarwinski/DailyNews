@@ -9,7 +9,6 @@ import retrofit2.http.Query
 interface NewsApi {
     @GET("top-headlines")
     suspend fun getArticles(
-        @Query("country") countryCode: String = DEFAULT_COUNTRY_CODE,
-        @Query("apiKey") apiKey: String = API_KEY
+        @Query("country") countryCode: String = DEFAULT_COUNTRY_CODE
     ): NewsResponseDto
 }
