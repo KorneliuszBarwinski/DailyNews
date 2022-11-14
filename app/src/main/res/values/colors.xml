@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <!-- palette -->
+    <color name="black">#2F2D2B</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="pink">#EB456C</color>
+    <color name="begonia">#F56C72</color>
+    <color name="fire_opal">#ED565D</color>
+    <color name="lavender">#E8ECF8</color>
+    <color name="alabaster">#F4F5F9</color>
+    <color name="grey">#8D8D8D</color>
+    <color name="linen">#FAEAEB</color>
+    <color name="cultured">#F8F7F9</color>
+
+    <!-- code colors -->
+    <color name="primary">@color/white</color>
+    <color name="accent">@color/pink</color>
+
+    <color name="text_primary">@color/black</color>
+    <color name="text_primary_reverse">@color/white</color>
+    <color name="text_accent">@color/pink</color>
+
+    <color name="background">@color/white</color>
+    <color name="background_reverse">@color/black</color>
+    <color name="background_secondary">@color/alabaster</color>
+
 </resources>
