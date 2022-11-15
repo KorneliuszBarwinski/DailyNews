@@ -10,5 +10,17 @@
         android:name="com.korneliuszbarwinski.dailynews.presentation.news.NewsFragment"
         android:label="fragment_news_list"
         tools:layout="@layout/list_item_article">
+        <action
+            android:id="@+id/action_newsFragment_to_newsDetailsFragment"
+            app:destination="@id/newsDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsDetailsFragment"
+        android:name="com.korneliuszbarwinski.dailynews.presentation.news.NewsDetailsFragment"
+        android:label="fragment_news_details"
+        tools:layout="@layout/fragment_news_details">
+        <argument
+            android:name="article"
+            app:argType="com.korneliuszbarwinski.dailynews.domain.model.Article" />
     </fragment>
 </navigation>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.korneliuszbarwinski.dailynews.R
 import com.korneliuszbarwinski.dailynews.common.gone
@@ -24,35 +25,47 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentNewsBinding.bind(view)
 
-        newsAdapter.addLoadStateListener { state ->
-            when (state.source.refresh) {
-                is LoadState.Loading -> showLoader()
-                is LoadState.NotLoading -> hideLoader()
-                is LoadState.Error -> hideLoader()
-            }
-        }
+        handleBinding()
+        inicializeAdapter()
+        handleApiData()
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun handleBinding(){
         binding.newsRV.adapter = newsAdapter
+
         binding.newsSRL.apply {
             setOnRefreshListener {
                 isRefreshing = false
                 viewModel.refreshNews()
             }
         }
-
-        handleApiData()
     }
 
+    private fun inicializeAdapter(){
+        newsAdapter.apply{
+            addLoadStateListener { state ->
+                when (state.source.refresh) {
+                    is LoadState.Loading -> showLoader()
+                    is LoadState.NotLoading -> hideLoader()
+                    is LoadState.Error -> hideLoader()
+                }
+            }
+
+            setOnItemClickListener {
+                findNavController().navigate(NewsFragmentDirections.actionNewsFragmentToNewsDetailsFragment(it))
+            }
+        }
+    }
 
     private fun handleApiData() {
         viewModel.latestNews.observe(viewLifecycleOwner) {
             newsAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun showLoader(){

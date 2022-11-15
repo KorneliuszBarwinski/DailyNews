@@ -3,7 +3,6 @@ package com.korneliuszbarwinski.dailynews.presentation.news
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -28,6 +27,7 @@ class NewsAdapter :
 
     inner class NewsViewHolder(private val binding: ListItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bindData(article: Article) {
             binding.apply {
                 articleTittleTV.text = article.title
@@ -41,17 +41,17 @@ class NewsAdapter :
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_image_error)
                     .into(articleImageIV)
+
+                root.setOnClickListener {
+                    onItemClickListener?.let { it(article) }
+                }
             }
         }
     }
-}
 
-class ArticleDiffCallback : DiffUtil.ItemCallback<Article>() {
-    override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
-        return oldItem.url == newItem.url
+    fun setOnItemClickListener(listener: (Article) -> Unit) {
+        onItemClickListener = listener
     }
 
-    override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
-        return oldItem == newItem
-    }
+    private var onItemClickListener: ((Article) -> Unit)? = null
 }
