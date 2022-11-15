@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import com.korneliuszbarwinski.dailynews.R
-import com.korneliuszbarwinski.dailynews.common.Resource
 import com.korneliuszbarwinski.dailynews.common.gone
 import com.korneliuszbarwinski.dailynews.common.visible
 import com.korneliuszbarwinski.dailynews.databinding.FragmentNewsBinding
@@ -23,8 +23,16 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentNewsBinding.bind(view)
-        binding.newsRV.adapter = newsAdapter
 
+        newsAdapter.addLoadStateListener { state ->
+            when (state.source.refresh) {
+                is LoadState.Loading -> showLoader()
+                is LoadState.NotLoading -> hideLoader()
+                is LoadState.Error -> hideLoader()
+            }
+        }
+
+        binding.newsRV.adapter = newsAdapter
         binding.newsSRL.apply {
             setOnRefreshListener {
                 isRefreshing = false
@@ -38,26 +46,20 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private fun handleApiData() {
         viewModel.latestNews.observe(viewLifecycleOwner) {
-            when (it){
-                is Resource.Success -> {
-                    newsAdapter.dataSet = it.data!!
-                    binding.newsRV.visible()
-                    binding.newsPB.gone()
-                }
-                is Resource.Loading -> {
-                    binding.newsPB.visible()
-                    binding.newsRV.gone()
-                }
-                is Resource.Error -> {
-                    binding.newsRV.visible()
-                    binding.newsPB.gone()
-                }
-            }
+            newsAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showLoader(){
+        binding.newsPB.visible()
+    }
+
+    private fun hideLoader(){
+        binding.newsPB.gone()
     }
 }
