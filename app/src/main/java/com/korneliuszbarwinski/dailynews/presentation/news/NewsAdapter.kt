@@ -2,6 +2,8 @@ package com.korneliuszbarwinski.dailynews.presentation.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -10,8 +12,8 @@ import com.korneliuszbarwinski.dailynews.databinding.ListItemArticleBinding
 import com.korneliuszbarwinski.dailynews.domain.model.Article
 
 class NewsAdapter :
-    RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
-    var dataSet = emptyList<Article>()
+    PagingDataAdapter<Article, NewsAdapter.NewsViewHolder>(ArticleDiffCallback()) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding =
@@ -20,7 +22,8 @@ class NewsAdapter :
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        holder.bindData(dataSet[position])
+        val article: Article? = getItem(position)
+        if (article != null) holder.bindData(article)
     }
 
     inner class NewsViewHolder(private val binding: ListItemArticleBinding) :
@@ -41,7 +44,14 @@ class NewsAdapter :
             }
         }
     }
+}
 
+class ArticleDiffCallback : DiffUtil.ItemCallback<Article>() {
+    override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+        return oldItem.url == newItem.url
+    }
 
-    override fun getItemCount(): Int = dataSet.count()
+    override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+        return oldItem == newItem
+    }
 }
