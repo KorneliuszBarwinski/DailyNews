@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">DailyNews</string>
+    <string name="top">TOP</string>
+    <string name="business">BUSINESS</string>
+    <string name="sport">SPORT</string>
+    <string name="politics">POLITICS</string>
+    <string name="technology">TECHNOLOGY</string>
+    <string name="beauty">BEAUTY</string>
 </resources>
