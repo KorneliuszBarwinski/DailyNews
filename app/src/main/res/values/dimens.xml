@@ -2,6 +2,7 @@
 <resources>
 
     <dimen name="space_12">2dp</dimen>
+    <dimen name="space_25">4dp</dimen>
     <dimen name="space_50">8dp</dimen>
     <dimen name="space_100">16dp</dimen>
     <dimen name="space_150">24dp</dimen>
@@ -11,5 +12,7 @@
     <dimen name="text_100">16sp</dimen>
     <dimen name="text_150">24sp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="corners_100">16dp</dimen>
 
 </resources>

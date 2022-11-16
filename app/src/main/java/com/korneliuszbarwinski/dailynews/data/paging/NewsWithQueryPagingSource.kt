@@ -13,8 +13,9 @@ import com.korneliuszbarwinski.dailynews.data.remote.dto.NewsErrorDto
 import com.korneliuszbarwinski.dailynews.domain.model.Article
 import retrofit2.HttpException
 
-class NewsPagingSource(
-    private val api: NewsApi
+class NewsWithQueryPagingSource(
+    private val api: NewsApi,
+    private val query: String
 ) : PagingSource<Int, Article>() {
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -27,7 +28,7 @@ class NewsPagingSource(
         val pageIndex = params.key ?: DEFAULT_PAGE
 
         return try {
-            val response = api.getArticles(page = pageIndex)
+            val response = api.getArticlesWithQuery(page = pageIndex, q = query)
             LoadResult.Page(
                 data = response.toListOfArticles(),
                 prevKey = if (pageIndex == DEFAULT_PAGE) null else pageIndex - 1,
