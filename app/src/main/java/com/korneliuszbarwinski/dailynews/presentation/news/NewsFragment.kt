@@ -7,10 +7,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.korneliuszbarwinski.dailynews.R
+import com.korneliuszbarwinski.dailynews.common.NewsException
 import com.korneliuszbarwinski.dailynews.common.gone
+import com.korneliuszbarwinski.dailynews.common.showToast
 import com.korneliuszbarwinski.dailynews.common.visible
 import com.korneliuszbarwinski.dailynews.databinding.FragmentNewsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class NewsFragment : Fragment(R.layout.fragment_news) {
@@ -49,10 +52,19 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     private fun inicializeAdapter(){
         newsAdapter.apply{
             addLoadStateListener { state ->
-                when (state.source.refresh) {
+                when (val loadState = state.source.refresh) {
                     is LoadState.Loading -> showLoader()
                     is LoadState.NotLoading -> hideLoader()
-                    is LoadState.Error -> hideLoader()
+                    is LoadState.Error -> {
+                        hideLoader()
+                        if (loadState.error is NewsException){
+                            loadState.error.message?.let {
+                                //Error handling by showing it in Toast is only simplification
+                                requireContext().showToast(it)
+                                Timber.d(it)
+                            }
+                        }
+                    }
                 }
             }
 
