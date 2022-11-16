@@ -6,7 +6,7 @@ import com.korneliuszbarwinski.dailynews.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetNewsUseCase @Inject constructor(
+class RefreshNewsUseCase @Inject constructor(
     private val repository: NewsRepository
 ) {
     suspend operator fun invoke(): Flow<PagingData<Article>> = repository.getNews()

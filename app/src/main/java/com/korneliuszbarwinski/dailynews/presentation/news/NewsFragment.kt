@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.korneliuszbarwinski.dailynews.R
-import com.korneliuszbarwinski.dailynews.common.Resource
-import com.korneliuszbarwinski.dailynews.common.hide
-import com.korneliuszbarwinski.dailynews.common.show
+import com.korneliuszbarwinski.dailynews.common.gone
+import com.korneliuszbarwinski.dailynews.common.visible
 import com.korneliuszbarwinski.dailynews.databinding.FragmentNewsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,34 +24,55 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentNewsBinding.bind(view)
-        binding.newsRV.adapter = newsAdapter
 
+        handleBinding()
+        inicializeAdapter()
         handleApiData()
-    }
-
-
-    private fun handleApiData() {
-        viewModel.latestNews.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-                    newsAdapter.dataSet = it.data!!
-                    binding.newsRV.show()
-                    binding.newsPB.hide()
-                }
-                is Resource.Loading -> {
-                    binding.newsPB.show()
-                    binding.newsRV.hide()
-                }
-                is Resource.Error -> {
-                    binding.newsRV.show()
-                    binding.newsPB.hide()
-                }
-            }
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun handleBinding(){
+        binding.newsRV.adapter = newsAdapter
+
+        binding.newsSRL.apply {
+            setOnRefreshListener {
+                isRefreshing = false
+                viewModel.refreshNews()
+            }
+        }
+    }
+
+    private fun inicializeAdapter(){
+        newsAdapter.apply{
+            addLoadStateListener { state ->
+                when (state.source.refresh) {
+                    is LoadState.Loading -> showLoader()
+                    is LoadState.NotLoading -> hideLoader()
+                    is LoadState.Error -> hideLoader()
+                }
+            }
+
+            setOnItemClickListener {
+                findNavController().navigate(NewsFragmentDirections.actionNewsFragmentToNewsDetailsFragment(it))
+            }
+        }
+    }
+
+    private fun handleApiData() {
+        viewModel.latestNews.observe(viewLifecycleOwner) {
+            newsAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
+    }
+
+    private fun showLoader(){
+        binding.newsPB.visible()
+    }
+
+    private fun hideLoader(){
+        binding.newsPB.gone()
     }
 }

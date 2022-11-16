@@ -1,8 +1,9 @@
 package com.korneliuszbarwinski.dailynews.domain.repository
 
-import com.korneliuszbarwinski.dailynews.common.Resource
+import androidx.paging.PagingData
 import com.korneliuszbarwinski.dailynews.domain.model.Article
+import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    suspend fun getNews(): Resource<List<Article>>
+    suspend fun getNews(): Flow<PagingData<Article>>
 }

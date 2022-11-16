@@ -9,6 +9,7 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textAppearance">@style/AppText</item>
         <item name="android:windowBackground">@color/background</item>
+        <item name="android:indeterminateTint">@color/accent</item>
     </style>
 
     <style name="AppTheme" parent="Base.DailyNews">
