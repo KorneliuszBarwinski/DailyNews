@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.korneliuszbarwinski.dailynews.common.Constants.DEFAULT_PAGE_SIZE
 import com.korneliuszbarwinski.dailynews.data.paging.NewsPagingSource
+import com.korneliuszbarwinski.dailynews.data.paging.NewsWithQueryPagingSource
 import com.korneliuszbarwinski.dailynews.data.remote.NewsApi
 import com.korneliuszbarwinski.dailynews.domain.model.Article
 import com.korneliuszbarwinski.dailynews.domain.repository.NewsRepository
@@ -24,6 +25,18 @@ class NewsRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = {
                 NewsPagingSource(api = newsApi)
+            }
+        ).flow
+    }
+
+    override suspend fun getNewsWithQuery(query: String): Flow<PagingData<Article>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = DEFAULT_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                NewsWithQueryPagingSource(api = newsApi, query = query)
             }
         ).flow
     }

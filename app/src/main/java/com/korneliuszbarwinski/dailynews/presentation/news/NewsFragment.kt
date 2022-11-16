@@ -2,6 +2,7 @@ package com.korneliuszbarwinski.dailynews.presentation.news
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -43,9 +44,41 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
         binding.newsSRL.apply {
             setOnRefreshListener {
+                //There should be logic in ViewModel to refresh currently selected category, for simplification i refresh "top" news and set chip selection to "top" news
                 isRefreshing = false
                 viewModel.refreshNews()
+                binding.apply {
+                    topChip.isChecked = true
+                    binding.chipViewScroll.fullScroll(ScrollView.FOCUS_UP)
+                }
             }
+        }
+
+        binding.apply {
+            topChip.setOnClickListener {
+                viewModel.refreshNews()
+            }
+
+            businessChip.setOnClickListener {
+                viewModel.getBusinessNews()
+            }
+
+            sportChip.setOnClickListener {
+                viewModel.getSportNews()
+            }
+
+            politicsChip.setOnClickListener {
+                viewModel.getPoliticsNews()
+            }
+
+            technologyChip.setOnClickListener {
+                viewModel.getTechnologyNews()
+            }
+
+            beautyChip.setOnClickListener {
+                viewModel.getBeautyNews()
+            }
+
         }
     }
 
