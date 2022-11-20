@@ -1,114 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.news.NewsFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/newsSRL">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent">
 
-        <HorizontalScrollView
-            android:id="@+id/chipViewScroll"
-            android:background="@drawable/background_chip_group"
+    <HorizontalScrollView
+        android:id="@+id/chipViewScroll"
+        android:background="@drawable/background_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="@dimen/space_100"
+        android:paddingBottom="@dimen/space_100">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingTop="@dimen/space_100"
-            android:paddingBottom="@dimen/space_100">
+            app:singleLine="true"
+            app:singleSelection="true">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/topChip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:singleLine="true"
-                app:singleSelection="true">
+                android:checkable="true"
+                android:layout_marginStart="@dimen/space_50"
+                android:layout_marginEnd="@dimen/space_25"
+                android:text="@string/top"
+                android:checked="true"/>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/topChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:layout_marginStart="@dimen/space_50"
-                    android:layout_marginEnd="@dimen/space_25"
-                    android:text="@string/top"
-                    android:checked="true"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/businessChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:layout_margin="@dimen/space_25"
+                android:text="@string/business" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/businessChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:layout_margin="@dimen/space_25"
-                    android:text="@string/business" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sportChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:layout_margin="@dimen/space_25"
+                android:text="@string/sport" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/sportChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:layout_margin="@dimen/space_25"
-                    android:text="@string/sport" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/politicsChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:layout_margin="@dimen/space_25"
+                android:text="@string/politics" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/politicsChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:layout_margin="@dimen/space_25"
-                    android:text="@string/politics" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/technologyChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:layout_margin="@dimen/space_25"
+                android:text="@string/technology" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/technologyChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:layout_margin="@dimen/space_25"
-                    android:text="@string/technology" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/beautyChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:layout_marginStart="@dimen/space_25"
+                android:layout_marginEnd="@dimen/space_50"
+                android:text="@string/beauty" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/beautyChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:layout_marginStart="@dimen/space_25"
-                    android:layout_marginEnd="@dimen/space_50"
-                    android:text="@string/beauty" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
 
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/newsSRL"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/chipViewScroll">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/newsRV"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chipViewScroll"
             tools:listitem="@layout/list_item_article"
             tools:visibility="visible" />
 
-        <ProgressBar
-            android:id="@+id/newsPB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <ProgressBar
+        android:id="@+id/newsPB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>
